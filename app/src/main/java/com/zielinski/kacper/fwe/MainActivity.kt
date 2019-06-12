@@ -1,4 +1,4 @@
-package com.zielinski.kacper.foreignwordsexplorer
+package com.zielinski.kacper.fwe
 
 import android.app.Activity
 import android.content.Intent
@@ -36,7 +36,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    fun getWordFromSpeech() {
+    private fun getWordFromSpeech() {
         val intent = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH)
         intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM)
         intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.getDefault())

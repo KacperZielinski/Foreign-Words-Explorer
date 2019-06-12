@@ -1,4 +1,4 @@
-package com.zielinski.kacper.foreignwordsexplorer
+package com.zielinski.kacper.fwe
 
 import org.junit.Test
 
