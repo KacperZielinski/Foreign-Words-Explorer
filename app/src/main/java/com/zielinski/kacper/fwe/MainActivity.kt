@@ -32,7 +32,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun registerOnClickListeners() {
-        fab.setOnClickListener {
+        speech_image_view.setOnClickListener {
             getWordFromSpeech()
         }
     }
