@@ -4,13 +4,11 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.speech.RecognizerIntent
-import androidx.appcompat.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
-import androidx.room.Room
-import androidx.room.RoomDatabase
-import com.zielinski.kacper.fwe.database.FWEDatabase
+import androidx.appcompat.app.AppCompatActivity
+import com.zielinski.kacper.fwe.database.FWEDatabaseImpl
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.content_main.*
 import java.util.*
@@ -33,10 +31,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initializeDatabase() {
-        db = Room.databaseBuilder(
-            applicationContext,
-            FWEDatabase::class.java, FWE_DB_NAME
-        ).build()
+        FWEDatabaseImpl.initialize(applicationContext)
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -79,8 +74,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     companion object {
-        const val FWE_DB_NAME = "FWE"
         const val SPEECH_RESULT_ACTIVITY_CODE = 712
-        lateinit var db: RoomDatabase
     }
 }
