@@ -4,10 +4,13 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.speech.RecognizerIntent
-import android.support.v7.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
+import androidx.room.Room
+import androidx.room.RoomDatabase
+import com.zielinski.kacper.fwe.database.FWEDatabase
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.content_main.*
 import java.util.*
@@ -19,9 +22,21 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
 
+        initializeDatabase()
+        registerOnClickListeners()
+    }
+
+    private fun registerOnClickListeners() {
         fab.setOnClickListener {
             getWordFromSpeech()
         }
+    }
+
+    private fun initializeDatabase() {
+        db = Room.databaseBuilder(
+            applicationContext,
+            FWEDatabase::class.java, FWE_DB_NAME
+        ).build()
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -45,7 +60,7 @@ class MainActivity : AppCompatActivity() {
             startActivityForResult(intent, SPEECH_RESULT_ACTIVITY_CODE)
         } else {
             Toast.makeText(
-                this, "Sorry, your device doesn't support Speech Recognition",
+                this, "Sorry, your device doesn't support speech recognition",
                 Toast.LENGTH_SHORT
             ).show()
         }
@@ -64,6 +79,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     companion object {
+        const val FWE_DB_NAME = "FWE"
         const val SPEECH_RESULT_ACTIVITY_CODE = 712
+        lateinit var db: RoomDatabase
     }
 }
