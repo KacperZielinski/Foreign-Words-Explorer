@@ -6,7 +6,7 @@ import androidx.room.RoomDatabase
 
 class FWEDatabaseImpl {
     companion object {
-        private const val FWE_DB_NAME = "FWE"
+        private const val FWE_DB_NAME = "FWE_DB"
 
         lateinit var instance: RoomDatabase
 
