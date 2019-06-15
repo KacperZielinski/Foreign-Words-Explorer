@@ -8,10 +8,17 @@ import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.zielinski.kacper.fwe.database.FWEDatabaseImpl
+import com.zielinski.kacper.fwe.database.FWEDatabase
+import com.zielinski.kacper.fwe.domain.model.Word
+import com.zielinski.kacper.fwe.translation.api.YandexAPI
+import com.zielinski.kacper.fwe.translation.dto.TranslateResponse
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.content_main.*
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 import java.util.*
+
 
 class MainActivity : AppCompatActivity() {
 
@@ -31,7 +38,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initializeDatabase() {
-        FWEDatabaseImpl.initialize(applicationContext)
+        FWEDatabase.initialize(applicationContext)
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -68,7 +75,23 @@ class MainActivity : AppCompatActivity() {
             SPEECH_RESULT_ACTIVITY_CODE ->
                 if (resultCode == Activity.RESULT_OK && data != null) {
                     val result = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS)
-                    recognized_word.text = result[0]
+                    val word = result[0]
+
+                    recognized_word.text = word
+
+                    val restApiCall = YandexAPI.getWordTranslation(word, "en", "pl")
+                    restApiCall.enqueue(object : Callback<TranslateResponse> {
+                        override fun onResponse(call: Call<TranslateResponse>, response: Response<TranslateResponse>) {
+                            val body = response.body()
+                            val translatedWord = body?.text!![0]
+                            translated_word.text = translatedWord
+                            FWEDatabase.instance!!.wordDao().insertWord(Word(word, translatedWord))
+                        }
+
+                        override fun onFailure(call: Call<TranslateResponse>, error: Throwable) {
+                            // catch error
+                        }
+                    })
                 }
         }
     }

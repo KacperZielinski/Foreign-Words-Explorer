@@ -1,17 +1,17 @@
 package com.zielinski.kacper.fwe.translation.api
 
-import com.zielinski.kacper.fwe.translation.dto.WordDto
+import com.zielinski.kacper.fwe.translation.dto.TranslateResponse
 import retrofit2.Call
 import retrofit2.http.GET
-import retrofit2.http.Path
+import retrofit2.http.Query
 
 interface TranslationAPI {
 
-    @GET("/{word}&langpair={fromLanguage}|{toLanguage}")
+    @GET("translate")
     fun getWordTranslation(
-        @Path("word") word: String,
-        @Path("fromLanguage") fromLanguage: String,
-        @Path("toLanguage") toLanguage: String
-    ): Call<WordDto>
+        @Query("key") key: String,
+        @Query("text") word: String,
+        @Query("lang") language: String
+    ): Call<TranslateResponse>
 
 }
