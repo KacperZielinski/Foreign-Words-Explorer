@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<androidx.viewpager.widget.ViewPager
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/pager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
@@ -12,28 +13,4 @@
         tools:showIn="@layout/activity_main"
         tools:context=".MainActivity">
 
-    <TextView
-            android:id="@+id/recognized_word"
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:layout_margin="16dp"
-            android:text=""/>
-
-    <TextView
-            android:id="@+id/translated_word"
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:layout_margin="16dp"
-            android:text=""/>
-
-    <ImageView android:id="@+id/speech_image_view"
-               android:src="@drawable/ic_fiber_new_black_48dp"
-               android:layout_width="match_parent"
-               android:layout_height="0dp"
-               android:layout_margin="48dp"
-               android:padding="48dp"
-               android:layout_weight="3"/>
-
-</LinearLayout>
+</androidx.viewpager.widget.ViewPager>

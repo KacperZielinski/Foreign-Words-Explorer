@@ -1,13 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-             xmlns:tools="http://schemas.android.com/tools"
-             android:layout_width="match_parent"
-             android:layout_height="match_parent"
-             tools:context=".fragment.NewWordFragment">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:layout_gravity="center"
+              android:gravity="center"
+              android:orientation="vertical"
+              tools:context=".fragment.NewWordFragment">
 
     <TextView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="Hello New Word"/>
+            android:id="@+id/recognized_word"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:layout_margin="16dp"
+            android:text=""/>
 
-</FrameLayout>
+    <TextView
+            android:id="@+id/translated_word"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:layout_margin="16dp"
+            android:text=""/>
+
+    <ImageView android:id="@+id/speech_image_view"
+               android:src="@drawable/ic_fiber_new_black_48dp"
+               android:layout_width="match_parent"
+               android:layout_height="0dp"
+               android:layout_margin="48dp"
+               android:padding="48dp"
+               android:layout_weight="3"
+               android:contentDescription="New Word"/>
+
+</LinearLayout>
