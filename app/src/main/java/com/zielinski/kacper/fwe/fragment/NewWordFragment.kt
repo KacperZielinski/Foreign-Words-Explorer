@@ -4,11 +4,11 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.speech.RecognizerIntent
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import androidx.fragment.app.Fragment
 import com.zielinski.kacper.fwe.R
 import com.zielinski.kacper.fwe.database.FWEDatabase
 import com.zielinski.kacper.fwe.domain.model.Word
@@ -19,6 +19,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import java.util.*
+
 
 class NewWordFragment : Fragment(), View.OnClickListener {
 
@@ -68,6 +69,13 @@ class NewWordFragment : Fragment(), View.OnClickListener {
                             val translatedWord = body?.text!![0]
                             translated_word.text = translatedWord
                             FWEDatabase.instance!!.wordDao().insertWord(Word(word, translatedWord))
+
+                            val fragment = WordListFragment()
+                            fragment.words = FWEDatabase.instance!!.wordDao().getAllWords()
+                            val fragmentTransaction = fragmentManager!!.beginTransaction()
+                            fragmentTransaction.replace(R.id.word_list_fragment, fragment)
+                            fragmentTransaction.attach(fragment)
+                            fragmentTransaction.commit()
                         }
 
                         override fun onFailure(call: Call<TranslateResponse>, error: Throwable) {
