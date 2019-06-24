@@ -74,6 +74,30 @@ class NewWordFragment : Fragment(), View.OnClickListener {
         }
     }
 
+    private fun getTranslationFromApi(word: String) {
+        val restApiCall = YandexAPI.getWordTranslation(word, "en", "pl")
+
+        restApiCall.enqueue(object : Callback<TranslateResponse> {
+            override fun onResponse(call: Call<TranslateResponse>, response: Response<TranslateResponse>) {
+                val body = response.body()
+                val translatedWord = body?.text!![0]
+                translated_word.text = translatedWord
+                FWEDatabase.instance!!.wordDao().insertWord(Word(word, translatedWord))
+
+                val fragment = WordListFragment()
+                fragment.words = FWEDatabase.instance!!.wordDao().getAllWords()
+                val fragmentTransaction = fragmentManager!!.beginTransaction()
+                fragmentTransaction.replace(R.id.word_list_fragment, fragment)
+                fragmentTransaction.attach(fragment)
+                fragmentTransaction.commit()
+            }
+
+            override fun onFailure(call: Call<TranslateResponse>, error: Throwable) {
+                // catch error
+            }
+        })
+    }
+
     companion object {
         const val SPEECH_RESULT_ACTIVITY_CODE = 712
     }
