@@ -7,6 +7,7 @@ import android.speech.RecognizerIntent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.ImageView
 import androidx.fragment.app.Fragment
 import com.zielinski.kacper.fwe.R
@@ -26,7 +27,9 @@ class NewWordFragment : Fragment(), View.OnClickListener {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_new_word, container, false)
 
-        val button: ImageView = view.findViewById(R.id.speech_image_view)
+        val speechImageView: ImageView = view.findViewById(R.id.speech_image_view)
+        val button: Button = view.findViewById(R.id.new_word_button)
+        speechImageView.setOnClickListener(this)
         button.setOnClickListener(this)
 
         return view
@@ -36,6 +39,12 @@ class NewWordFragment : Fragment(), View.OnClickListener {
         when (view?.id) {
             R.id.speech_image_view -> {
                 getWordFromSpeech()
+            }
+            R.id.new_word_button -> {
+                val word = new_word_edit_text.text.toString()
+                recognized_word.text = word
+                new_word_edit_text.setText("")
+                getTranslationFromApi(word)
             }
 
             else -> {
@@ -59,29 +68,8 @@ class NewWordFragment : Fragment(), View.OnClickListener {
                 if (resultCode == Activity.RESULT_OK && data != null) {
                     val result = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS)
                     val word = result[0]
-
                     recognized_word.text = word
-
-                    val restApiCall = YandexAPI.getWordTranslation(word, "en", "pl")
-                    restApiCall.enqueue(object : Callback<TranslateResponse> {
-                        override fun onResponse(call: Call<TranslateResponse>, response: Response<TranslateResponse>) {
-                            val body = response.body()
-                            val translatedWord = body?.text!![0]
-                            translated_word.text = translatedWord
-                            FWEDatabase.instance!!.wordDao().insertWord(Word(word, translatedWord))
-
-                            val fragment = WordListFragment()
-                            fragment.words = FWEDatabase.instance!!.wordDao().getAllWords()
-                            val fragmentTransaction = fragmentManager!!.beginTransaction()
-                            fragmentTransaction.replace(R.id.word_list_fragment, fragment)
-                            fragmentTransaction.attach(fragment)
-                            fragmentTransaction.commit()
-                        }
-
-                        override fun onFailure(call: Call<TranslateResponse>, error: Throwable) {
-                            // catch error
-                        }
-                    })
+                    getTranslationFromApi(word)
                 }
         }
     }

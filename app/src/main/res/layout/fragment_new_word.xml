@@ -8,11 +8,39 @@
               android:orientation="vertical"
               tools:context=".fragment.NewWordFragment">
 
+    <LinearLayout android:layout_width="match_parent"
+                  android:layout_height="0dp"
+                  android:layout_weight="4"
+                  android:gravity="center"
+                  android:layout_gravity="center">
+
+        <EditText
+                android:id="@+id/new_word_edit_text"
+                android:layout_width="0dp"
+                android:layout_weight="4"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:layout_marginEnd="0dp"
+                android:text=""
+                android:inputType="text" />
+
+        <Button android:id="@+id/new_word_button"
+                android:text="New"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:padding="8dp"
+                android:layout_margin="16dp"
+                android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
+
     <TextView
             android:id="@+id/recognized_word"
             android:layout_width="wrap_content"
             android:layout_height="0dp"
-            android:layout_weight="1"
+            android:layout_weight="3"
+            android:layout_marginTop="32dp"
             android:layout_margin="16dp"
             android:text=""/>
 
@@ -20,7 +48,7 @@
             android:id="@+id/translated_word"
             android:layout_width="wrap_content"
             android:layout_height="0dp"
-            android:layout_weight="1"
+            android:layout_weight="3"
             android:layout_margin="16dp"
             android:text=""/>
 
@@ -30,7 +58,7 @@
                android:layout_height="0dp"
                android:layout_margin="48dp"
                android:padding="48dp"
-               android:layout_weight="3"
+               android:layout_weight="4"
                android:contentDescription="New Word"/>
 
 </LinearLayout>
